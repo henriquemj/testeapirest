@@ -7,13 +7,10 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.hamcrest.text.StringContainsInOrder;
 import org.junit.Assert;
 import org.junit.Test;
 
-import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
