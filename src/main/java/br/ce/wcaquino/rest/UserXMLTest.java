@@ -7,35 +7,46 @@ import java.util.ArrayList;
 import static io.restassured.RestAssured.given;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.restassured.RestAssured;
 import io.restassured.internal.path.xml.NodeImpl;
 import io.restassured.response.ExtractableResponse;
 
 public class UserXMLTest {
 	
-	@Test
-	public void devoTrabalharComXML() {
-		given()
-		.when()
-			.get("https://restapi.wcaquino.me/usersXML/3")
-		.then()
-			.statusCode(200)
-			.body("user.name", is("Ana Julia"))
-			.body("user.@id", is("3"))
-			.body("user.filhos.name.size()", is(2))
-			.body("user.filhos.name[0]", is("Zezinho"))
-			.body("user.filhos.name[1]", is("Luizinho"))
-			.body("user.filhos.name", hasItem("Luizinho"))
-			.body("user.filhos.name", hasItems("Luizinho", "Zezinho"))
-		;
+	@BeforeClass
+	public static void setup() {
+		RestAssured.baseURI = "https://restapi.wcaquino.me";
+//		RestAssured.port = 443;
+//		RestAssured.basePath = "/v2";
 	}
+	
+//	@Test
+//	public void devoTrabalharComXML() {
+//		given()
+//		.when()
+//			.get("https://restapi.wcaquino.me/usersXML/3")
+//		.then()
+//			.statusCode(200)
+//			.body("user.name", is("Ana Julia"))
+//			.body("user.@id", is("3"))
+//			.body("user.filhos.name.size()", is(2))
+//			.body("user.filhos.name[0]", is("Zezinho"))
+//			.body("user.filhos.name[1]", is("Luizinho"))
+//			.body("user.filhos.name", hasItem("Luizinho"))
+//			.body("user.filhos.name", hasItems("Luizinho", "Zezinho"))
+//		;
+//	}
 	
 	@Test
 	public void devoTrabalharComXMLTwo() {
+		
 		given()
+		.log().all()
 		.when()
-			.get("https://restapi.wcaquino.me/usersXML/3")
+			.get("/usersXML/3")
 		.then()
 			.statusCode(200)
 			
@@ -59,7 +70,7 @@ public class UserXMLTest {
 	public void devoFazerPesquisasAvancadasComXML() {
 		given()
 		.when()
-			.get("https://restapi.wcaquino.me/usersXML")
+			.get("/usersXML")
 		.then()
 			.statusCode(200)
 			.body("users.user.size()", is(3))
@@ -77,7 +88,7 @@ public class UserXMLTest {
 	public void devoFazerPesquisasAvancadasComXMLEJava() {
 		ArrayList<NodeImpl> nomes = given()
 		.when()
-			.get("https://restapi.wcaquino.me/usersXML")
+			.get("/usersXML")
 		.then()
 			.statusCode(200)
 			.extract().path("users.user.name.findAll{it.toString().contains('n')}");
@@ -91,7 +102,7 @@ public class UserXMLTest {
 	public void devoFazerPesquisasAvancadasComXPath() {
 		given()
 		.when()
-			.get("https://restapi.wcaquino.me/usersXML")
+			.get("/usersXML")
 		.then()
 			.statusCode(200)
 			.body(hasXPath("count(/users/user)", is("3")))
