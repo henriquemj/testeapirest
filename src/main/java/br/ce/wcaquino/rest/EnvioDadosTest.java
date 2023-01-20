@@ -1,5 +1,6 @@
 package br.ce.wcaquino.rest;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
@@ -20,6 +21,22 @@ public class EnvioDadosTest {
 			.statusCode(200)
 			.contentType(ContentType.JSON)
 			;
+	}
+	
+	@Test
+	public void deveEnviarValorViaQueryViaParam() { //Parei em 03:20m video 37
+		given()
+			.log().all()
+			.queryParam("format", "xml")
+			.queryParam("outra", "coisa")
+		.when()
+			.get("https://restapi.wcaquino.me/v2/users")
+		.then()
+			.log().all()
+			.statusCode(200)
+			.contentType(ContentType.XML)
+			.contentType(Matchers.containsString("utf-8"))
+		;
 	}
 
 }
