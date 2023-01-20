@@ -24,7 +24,7 @@ public class EnvioDadosTest {
 	}
 	
 	@Test
-	public void deveEnviarValorViaQueryViaParam() { //Parei em 03:20m video 37
+	public void deveEnviarValorViaQueryViaParam() {
 		given()
 			.log().all()
 			.queryParam("format", "xml")
@@ -36,6 +36,21 @@ public class EnvioDadosTest {
 			.statusCode(200)
 			.contentType(ContentType.XML)
 			.contentType(Matchers.containsString("utf-8"))
+		;
+	}
+	
+	
+	@Test
+	public void deveEnviarValorViaQueryViaHeader() { 
+		given()
+			.log().all()
+			.accept(ContentType.XML)
+		.when()
+			.get("https://restapi.wcaquino.me/v2/users")
+		.then()
+			.log().all()
+			.statusCode(200)
+			.contentType(ContentType.XML)
 		;
 	}
 
