@@ -3,9 +3,14 @@ package br.ce.wcaquino.rest;
 import static org.hamcrest.Matchers.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import static io.restassured.RestAssured.given;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class FileTest {
@@ -50,6 +55,24 @@ public class FileTest {
 			.statusCode(413)
 			;
 	}
-
-
+	
+	@Test
+	public void deveBaixarArquivo() throws IOException {
+		byte[] image= given()
+			.log().all()
+		.when()
+			.get("http://restapi.wcaquino.me/download")
+		.then()
+	//		.log().all()
+			.statusCode(200)
+			.extract().asByteArray();
+			;
+			
+		File imagem = new File("src/main/resources/file.jpg");
+		OutputStream out = new FileOutputStream(imagem);
+		out.write(image);
+		out.close();
+		
+		Assert.assertThat(imagem.length(), lessThan(100000L));
+	}
 }
