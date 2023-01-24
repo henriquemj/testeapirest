@@ -1,6 +1,6 @@
 package br.ce.wcaquino.rest;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 
@@ -36,5 +36,20 @@ public class FileTest {
 			.body("name", is("users.pdf"))
 			;
 	}
+	
+	@Test
+	public void nãoDevoFazerUploadArquivoGrande() {
+		given()
+			.log().all()
+			.multiPart("arquivo", new File("src/main/resources/teste10.jar"))
+		.when()
+			.post("http://restapi.wcaquino.me/upload")
+		.then()
+			.log().all()
+			.time(lessThan(10000L))
+			.statusCode(413)
+			;
+	}
+
 
 }
