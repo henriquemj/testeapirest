@@ -75,4 +75,6 @@ public class FileTest {
 		
 		Assert.assertThat(imagem.length(), lessThan(100000L));
 	}
+	
+	
 }
