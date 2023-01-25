@@ -34,4 +34,17 @@ public class SchemaTest {
 			.body(RestAssuredMatchers.matchesXsdInClasspath("users.xsd"))
 		;
 	}
+	
+	@Test
+	public void deveValidarSchemaJson() {
+		given()
+			.log().all()
+		.when()
+			.get("https://restapi.wcaquino.me/users")
+		.then()
+			.log().all()
+			.statusCode(200)
+//			.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("users.json"))
+		;
+	}
 }
