@@ -19,4 +19,23 @@ public class AuthTest {
 			.body("name", is("Luke Skywalker"))
 		;
 	}
+	//28d413da9547b8384fb8e0f2b9ee6dd0
+	
+	@Test
+	public void deveObterClima() {
+	    given()
+	        .log().all()
+	        .queryParam("q", "Rio de Janeiro, BR")
+	        .queryParam("appid", "28d413da9547b8384fb8e0f2b9ee6dd0")
+	        .queryParam("units", "metric")
+	    .when()
+	    .   get("http://api.openweathermap.org/data/2.5/weather")
+	    .then()
+	        .log().all()
+	        .statusCode(200)
+//	        .body("name", is("Rio de Janeiro"))
+//	        .body("coord.lon", is(-38.58f))
+//	        .body("main.temp", greaterThan(20f))
+	    ;
+	}
 }
