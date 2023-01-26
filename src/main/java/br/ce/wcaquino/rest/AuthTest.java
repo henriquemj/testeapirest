@@ -25,7 +25,7 @@ public class AuthTest {
 	public void deveObterClima() {
 	    given()
 	        .log().all()
-	        .queryParam("q", "Rio de Janeiro, BR")
+	        .queryParam("q", "Fortaleza,BR")
 	        .queryParam("appid", "28d413da9547b8384fb8e0f2b9ee6dd0")
 	        .queryParam("units", "metric")
 	    .when()
@@ -33,9 +33,9 @@ public class AuthTest {
 	    .then()
 	        .log().all()
 	        .statusCode(200)
-//	        .body("name", is("Rio de Janeiro"))
-//	        .body("coord.lon", is(-38.58f))
-//	        .body("main.temp", greaterThan(20f))
+	        .body("name", is("Fortaleza"))
+	        .body("coord.lon", is(-38.5247f))
+	        .body("main.temp", greaterThan(25f))
 	    ;
 	}
 }
