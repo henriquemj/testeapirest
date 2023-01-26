@@ -2,8 +2,13 @@ package br.ce.wcaquino.rest;
 
 import org.junit.Test;
 
+import io.restassured.http.ContentType;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthTest {
 	
@@ -78,5 +83,45 @@ public class AuthTest {
 			.statusCode(200)
 			.body("status", is("logado"))
 		;
+	}
+	
+	// http://barrigarest.wcaquino.me/contas
+	// http://seubarriga.wcaquino.me/cadastro
+	
+	// Email: teste2023@teste.com.br
+	// senha: 123456
+	
+	@Test
+	public void deveFazerAutenticacaoBasicaChallenge() {
+		Map<String, String> login = new HashMap<String, String>();
+		login.put("email", "teste2023@teste.com.br");
+		login.put("senha", "123456");
+		
+		//login na api
+		//Receber o token
+		String token = given()
+			.log().all()
+			.body(login)
+			.contentType(ContentType.JSON)
+		.when()
+			.post("http://barrigarest.wcaquino.me/signin")
+		.then()
+			.log().all()
+			.statusCode(200)
+			.extract().path("token");
+		;
+		
+		//Obter as contas
+		given()
+			.log().all()
+			.header("Authorization","JWT " + token)
+		.when()
+			.get("http://barrigarest.wcaquino.me/contas")
+		.then()
+			.log().all()
+			.statusCode(200)
+			.body("nome", hasItem("Conta de teste"))
+	;
+		
 	}
 }
